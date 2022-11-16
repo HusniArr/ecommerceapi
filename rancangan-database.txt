@@ -1,0 +1,45 @@
+tabel produk
+1.title:string,required, unique
+2.desc:string,required, unique,
+3.img:string,required, 
+4.categories:array,
+5.size:string,
+6.color:string,
+7.price:string,required,
+8.timestamps:true
+tabel cart
+1.userId:string,required,
+2.products:[
+	 {
+		productId:{
+			type:string
+		}
+	},
+	{
+		quantity:{	
+			type:Number,
+			default:1
+		}
+	}
+]
+3.timestamps:true
+tabel order
+1.userId:string,required,
+2.products:[
+	 {
+		productId:{
+			type:string
+		}
+	},
+	{
+		quantity:{	
+			type:Number,
+			default:1
+		}
+	}
+]
+3.amount:Number,required,
+4.address:Object,required,
+5.status:String,default:"Pending"
+6.timestamps:true
+
