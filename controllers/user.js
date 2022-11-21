@@ -7,14 +7,19 @@ module.exports = {
     async register(req,res){
         const { username, email, password } = req.body;
         try {
-            const user = new User({
-                username:username,
-                email:email,
-                password:CryptoJS.AES.encrypt(password,process.env.CRYPTO_SECRET).toString()
-            });
-            user.save();
-            const result = await User.findOne({username:username});
-            res.status(200).json({data:result});
+            const checkEmailUser = await User.findOne({email});
+            if(checkEmailUser){
+                res.status(401).json({error:"Data user sudah ada"});
+            }else{
+                const user = new User({
+                    username:username,
+                    email:email,
+                    password:CryptoJS.AES.encrypt(password,process.env.CRYPTO_SECRET).toString()
+                });
+                user.save();
+                res.status(200).json({data:user});
+
+            }
         } catch (error) {
         res.status(500).json({message:error.message});   
         }
@@ -30,7 +35,7 @@ module.exports = {
                 res.status(401).json({error:"email atau password tidak sesuai."});
             }else{
                 
-                const accessToken = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'1d'});
+                const accessToken = jwt.sign({id:user._id,email:user.email},process.env.JWT_SECRET,{expiresIn:'1d'});
                 const { password,...result} = user._doc;
                 res.status(200).json({...result,accessToken});
             }
