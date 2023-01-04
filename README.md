@@ -1,2 +1,2 @@
 # ecommerceapi
-ecomer-api
+ecommerce-api
