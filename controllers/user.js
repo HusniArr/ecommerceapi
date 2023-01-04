@@ -24,7 +24,6 @@ module.exports = {
         res.status(500).json({message:error.message});   
         }
     },
-
     async login(req,res){
         try{
             const user = await User.findOne({email:req.body.email});
@@ -45,7 +44,6 @@ module.exports = {
              res.status(500).json({error:error.message});
         }
     },
-
     async findAllUser(req,res){
         try {
             const users = await User.find({});
@@ -72,6 +70,15 @@ module.exports = {
             }
         }catch(error){
             res.status(503).json({error:error.message});
+        }
+    },
+    async deleteUser(req,res){
+        const id = req.params.id;
+        const deleted = await User.deleteOne({_id:id});
+        if(deleted){
+            res.status(200).json({message:"Data user dengan id : "+id+" berhasil dihapus"});
+        }else{
+            res.status(400).json({error:"Data user gagal dihapus"});
         }
     }
 }
