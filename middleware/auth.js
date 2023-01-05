@@ -10,7 +10,7 @@ const verifyToken = (req,res,next) =>{
         jwt.verify(token,process.env.JWT_SECRET,(err,user)=>{
             if(err) res.status(401).json({error:"Token is not valid"});
             req.user = user;
-            next()
+            next();
         })
     }else{
         res.status(403).json({error:'ACCESS FORBIDEN'});
@@ -25,6 +25,7 @@ const verifyTokenAndAuthorization = (req,res,next) =>{
         }else{
             res.status(403).json({error:'ACCESS FORBIDEN'});
         }
+        console.log(req.user);
     })
 }
 

@@ -6,6 +6,6 @@ router.get('/users',verifyTokenAndAuthorization,findAllUser);
 
 router.put('/users/:id',verifyTokenAndAuthorization,updatedUser);
 
-router.delete('/users/:id',verifyTokenAndAuthorization,deleteUser);
+router.delete('/users',verifyTokenAndAuthorization,deleteUser);
 
 module.exports = router;

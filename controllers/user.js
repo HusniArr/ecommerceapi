@@ -34,7 +34,7 @@ module.exports = {
                 res.status(401).json({error:"email atau password tidak sesuai."});
             }else{
                 
-                const accessToken = jwt.sign({id:user._id,email:user.email},process.env.JWT_SECRET,{expiresIn:'1d'});
+                const accessToken = jwt.sign({id:user._id,email:user.email,isAdmin:user.isAdmin},process.env.JWT_SECRET,{expiresIn:'1d'});
                 const { password,...result} = user._doc;
                 res.status(200).json({...result,accessToken});
             }
@@ -73,10 +73,10 @@ module.exports = {
         }
     },
     async deleteUser(req,res){
-        const id = req.params.id;
-        const deleted = await User.deleteOne({_id:id});
+        const userId = req.query.userId;
+        const deleted = await User.deleteOne({_id:userId});
         if(deleted){
-            res.status(200).json({message:"Data user dengan id : "+id+" berhasil dihapus"});
+            res.status(200).json({message:"Data user berhasil dihapus"});
         }else{
             res.status(400).json({error:"Data user gagal dihapus"});
         }
