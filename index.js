@@ -19,8 +19,8 @@ app.get('/',(req,res)=>{
     });
 });
 app.use('/api/auth',authRoute);
-app.use('/api',userRoute);
-app.use('/api',productRoute);
+app.use('/api/users',userRoute);
+app.use('/api/products',productRoute);
 
 
 

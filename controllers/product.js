@@ -67,9 +67,21 @@ module.exports = {
             res.status(500).json({error:error.message});
         }
     },
-    async findByAllProducts(req,res){
+    async findAllProducts(req,res){
+        const qNew = req.query.new;
+        const qCategory = req.query.category;
         try{
-            const products = await Product.find();
+            let products;
+            if(qNew == 'true'){
+                products = await Product.find().sort({createdAt:-1}).limit(5);
+            }else if(qCategory){
+                products = await Product.find({categories:{
+                    $in:[qCategory]
+                }});
+            }else{
+                products = await Product.find();
+            }
+
             const [ ...result] = products;
             res.status(200).json({products:result});
         }catch(error){

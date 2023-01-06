@@ -29,6 +29,16 @@ const verifyTokenAndAuthorization = (req,res,next) =>{
     })
 }
 
+const verifyTokenAndAdmin = (req,res,next) => {
+    verifyToken(req,res, () =>{
+        if(req.user.isAdmin){
+            next();
+        }else{
+            res.status(403).json({error:'ACCESS FORBIDEN'});
+        }
+    })
+}
+
 const checkEmailUser = async (req,res,next) =>{
     const user = await User.findOne({email:req.body.email}).exec();
     if(!user){
@@ -113,5 +123,5 @@ const verifyLoginUser = async(req,res,next)=>{
 }
 
 module.exports = {
-    verifyToken,verifyTokenAndAuthorization,checkEmailUser,verifyRegisterUser, verifyLoginUser
+    verifyToken,verifyTokenAndAuthorization,verifyTokenAndAdmin,checkEmailUser,verifyRegisterUser, verifyLoginUser
 }

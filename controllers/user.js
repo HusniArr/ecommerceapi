@@ -55,7 +55,7 @@ module.exports = {
     },
     async updatedUser(req,res){
         try{
-            const id = req.params.id;
+            const id = req.params.userId;
             const { username, email} = req.body;
             const hashPassword = CryptoJS.AES.encrypt(req.body.password,process.env.CRYPTO_SECRET).toString();
             const user = await User.findOne({email:email});
@@ -73,12 +73,16 @@ module.exports = {
         }
     },
     async deleteUser(req,res){
-        const userId = req.query.userId;
-        const deleted = await User.deleteOne({_id:userId});
-        if(deleted){
-            res.status(200).json({message:"Data user berhasil dihapus"});
-        }else{
-            res.status(400).json({error:"Data user gagal dihapus"});
+        const userId = req.params.userId;
+        try{
+            const result = await User.deleteOne({_id:userId});
+            if(result.deletedCount == 1){
+                res.status(200).json({message:"Data user berhasil dihapus"});
+            }else{
+                res.status(400).json({error:"Data user gagal dihapus"});
+            }
+        }catch(error){
+            res.status(503).json({error:error.message});
         }
     }
 }
