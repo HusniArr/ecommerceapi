@@ -5,7 +5,7 @@ const checkProduct = (req,res,next)=>{
         title : Joi.string().required(),
         desc : Joi.string().required(),
         img : Joi.string().required(),
-        categories:Joi.string().required(),
+        categories:Joi.array().items(Joi.string()),
         size:Joi.number().required(),
         color:Joi.string().required(),
         price:Joi.number().required()
@@ -27,7 +27,7 @@ const checkProduct = (req,res,next)=>{
             case 'img':
                 res.status(400).json({error:'Masukan file gambar'})
             case 'categories':
-                res.status(400).json({error:'Masukan kategori atau jenis produk'})
+                res.status(400).json({error:'Masukan kategori atau jenis produk dalam bentuk array'})
                 break;
             case 'size':
                 res.status(400).json({error:'Masukan ukuran produk'});

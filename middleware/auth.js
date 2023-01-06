@@ -20,12 +20,12 @@ const verifyToken = (req,res,next) =>{
 
 const verifyTokenAndAuthorization = (req,res,next) =>{
     verifyToken(req,res,()=>{
+        // console.log(req.user);
         if(req.user.id == req.params.id || req.user.isAdmin){
             next()
         }else{
             res.status(403).json({error:'ACCESS FORBIDEN'});
         }
-        console.log(req.user);
     })
 }
 
