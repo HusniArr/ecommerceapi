@@ -9,6 +9,8 @@ dotenv.config();
 const authRoute = require('./router/auth-route');
 const userRoute = require('./router/user-route');
 const productRoute = require('./router/product-route');
+const cartRoute = require('./router/cart-route');
+const orderRoute = require('./router/order-route');
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +23,8 @@ app.get('/',(req,res)=>{
 app.use('/api/auth',authRoute);
 app.use('/api/users',userRoute);
 app.use('/api/products',productRoute);
+app.use('/api/order',orderRoute);
+app.use('/api/cart',cartRoute);
 
 
 
